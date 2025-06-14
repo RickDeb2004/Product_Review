@@ -1,5 +1,5 @@
 import StarRating from "./StarRating";
-import { formatDistanceToNow, parseISO } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 
 type Review = {
   id: string;
