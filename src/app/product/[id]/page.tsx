@@ -9,7 +9,7 @@ import ReviewList from "@/components/ReviewList";
 import ReviewModal from "@/components/ReviewModal";
 
 export default function ProductDetail() {
-  const { id: productId } = useParams(); // ✅ read from dynamic route
+  const { id: productId } = useParams(); 
   const [product, setProduct] = useState<any>(null);
   const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);

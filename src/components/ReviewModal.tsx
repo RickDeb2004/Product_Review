@@ -73,7 +73,7 @@ export default function ReviewModal({
       <div className="bg-white p-6 rounded-md w-full max-w-xl relative">
         <h2 className="text-2xl font-semibold mb-4">Write a Review</h2>
 
-        {/* Star Rating */}
+        
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Overall Rating
@@ -93,7 +93,7 @@ export default function ReviewModal({
           </div>
         </div>
 
-        {/* Textarea */}
+       
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Your Review
@@ -111,7 +111,7 @@ export default function ReviewModal({
           </p>
         </div>
 
-        {/* Image Upload */}
+      
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Add Photos (Optional)
@@ -138,7 +138,7 @@ export default function ReviewModal({
           </div>
         </div>
 
-        {/* Buttons */}
+   
         <div className="flex justify-end gap-2">
           <button
             onClick={onClose}
