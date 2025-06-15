@@ -1,30 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
+
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import StarRating from "@/components/StarRating";
 import ReviewList from "@/components/ReviewList";
 import ReviewModal from "@/components/ReviewModal";
 
-export default function ProductDetail({ params }: { params: { id: string } }) {
+export default function ProductDetail() {
+  const { id: productId } = useParams(); // ✅ read from dynamic route
   const [product, setProduct] = useState<any>(null);
   const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    async function fetchProduct() {
-      const { data } = await supabase.from("products").select("*").eq("id", params.id).single();
-      setProduct(data);
+    if (!productId) return;
+
+    async function fetchData() {
+      const [{ data: product }, { data: reviews }] = await Promise.all([
+        supabase.from("products").select("*").eq("id", productId).single(),
+        supabase.from("reviews").select("*").eq("product_id", productId),
+      ]);
+
+      setProduct(product);
+      setReviews(reviews ?? []);
+      setLoading(false);
     }
 
-    async function fetchReviews() {
-      const { data } = await supabase.from("reviews").select("*").eq("product_id", params.id);
-      setReviews(data ?? []);
-    }
-
-    Promise.all([fetchProduct(), fetchReviews()]).finally(() => setLoading(false));
-  }, [params.id]);
+    fetchData();
+  }, [productId]);
 
   const avgRating = reviews.length
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
@@ -42,9 +48,14 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
     <main className="bg-[#F1F3F6] min-h-screen p-6">
       <div className="bg-white p-6 rounded-md max-w-5xl mx-auto">
         <div className="grid md:grid-cols-2 gap-6">
-          <img src={product.image_url} className="w-full h-96 object-cover bg-gray-100" />
+          <img
+            src={product.image_url}
+            className="w-full h-96 object-cover bg-gray-100"
+          />
           <div>
-            <p className="text-sm text-gray-500">{product.category} · {product.brand}</p>
+            <p className="text-sm text-gray-500">
+              {product.category} · {product.brand}
+            </p>
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="text-gray-600 mt-1">{product.description}</p>
             <p className="text-xl font-bold mt-2">₹{product.price}</p>
@@ -59,7 +70,12 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   <div key={star} className="flex items-center">
                     <span className="w-6">{star}</span>
                     <div className="w-full bg-gray-200 h-2 mx-2 rounded-full overflow-hidden">
-                      <div className="bg-black h-2" style={{ width: `${(count / reviews.length) * 100 || 0}%` }} />
+                      <div
+                        className="bg-black h-2"
+                        style={{
+                          width: `${(count / reviews.length) * 100 || 0}%`,
+                        }}
+                      />
                     </div>
                     <span className="text-sm">{count}</span>
                   </div>
@@ -78,8 +94,10 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         <ReviewModal
           open={showModal}
           onClose={() => setShowModal(false)}
-          productId={params.id}
-          onSubmitSuccess={(newReview) => setReviews((prev) => [newReview, ...prev])}
+          productId={productId as string}
+          onSubmitSuccess={(newReview) =>
+            setReviews((prev) => [newReview, ...prev])
+          }
         />
       </div>
     </main>
