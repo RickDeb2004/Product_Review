@@ -154,3 +154,8 @@ https://github.com/user-attachments/assets/b086a5be-59fc-48f8-a1d5-c453a5d2f16b
 * Supabase project with the correct schema and policies in place
 * Supabase bucket named `review-images` with public upload access
 
+
+Use thi env keys :
+NEXT_PUBLIC_SUPABASE_URL=https://dhwpmwvtdglsoslxzozw.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRod3Btd3Z0ZGdsc29zbHh6b3p3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NzE0NTAsImV4cCI6MjA2NTQ0NzQ1MH0.nvgMRSEaElqfdslAHoJ8UYSLnuINPd-2iWXxLcZYjwU
+
